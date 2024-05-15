@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator Web App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 320px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #0056b3;
+        }
+
+        .input-section {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #0056b3;
+         
+        }
+
+        .date-input {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .date-input input {
+            width: 80px;
+            margin: 0 5px;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .button-section {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #004080;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #0056b3;
+        }
+
+        .age-result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #0056b3;
+            border-radius: 10px;
+            background-color: #f2f2f2;
+            color: #333;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body onload="setTodayDate()">
+    <div class="container">
+        <h1>AGE CALCULATOR</h1>
+        <div class="input-section">
+            <h2>Today's Date</h2>
+            <div class="date-input">
+                <input type="number" id="todayDateDay" placeholder="DD" maxlength="2">
+                <input type="number" id="todayDateMonth" placeholder="MM" maxlength="2">
+                <input type="number" id="todayDateYear" placeholder="YYYY" maxlength="4">
+            </div>
+        </div>
+        <div class="input-section">
+            <h2>Birth Date</h2>
+            <div class="date-input">
+                <input type="number" id="birthDateDay" placeholder="DD" maxlength="2">
+                <input type="number" id="birthDateMonth" placeholder="MM" maxlength="2">
+                <input type="number" id="birthDateYear" placeholder="YYYY" maxlength="4">
+            </div>
+        </div>
+        <div class="button-section">
+            <button onclick="calculateAge()">Calculate</button>
+            <button onclick="clearFields()">Clear</button>
+        </div>
+        <div id="result" class="age-result"></div>
+    </div>
+    <script>
+        function setTodayDate() {
+            var today = new Date();
+            var todayDateDay = today.getDate();
+            var todayDateMonth = today.getMonth() + 1;
+            var todayDateYear = today.getFullYear();
+
+            document.getElementById("todayDateDay").value = todayDateDay < 10 ? '0' + todayDateDay : todayDateDay;
+            document.getElementById("todayDateMonth").value = todayDateMonth < 10 ? '0' + todayDateMonth : todayDateMonth;
+            document.getElementById("todayDateYear").value = todayDateYear;
+        }
+
+        function calculateAge() {
+            var todayDateDay = parseInt(document.getElementById("todayDateDay").value);
+            var todayDateMonth = parseInt(document.getElementById("todayDateMonth").value);
+            var todayDateYear = parseInt(document.getElementById("todayDateYear").value);
+            var birthDateDay = parseInt(document.getElementById("birthDateDay").value);
+            var birthDateMonth = parseInt(document.getElementById("birthDateMonth").value);
+            var birthDateYear = parseInt(document.getElementById("birthDateYear").value);
+
+            var today = new Date(todayDateYear, todayDateMonth - 1, todayDateDay);
+            var birthDate = new Date(birthDateYear, birthDateMonth - 1, birthDateDay);
+
+            var ageInMilliseconds = today - birthDate;
+            var ageInYears = Math.floor(ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25));
+            var ageInMonths = Math.floor((ageInMilliseconds % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
+            var ageInDays = Math.floor((ageInMilliseconds % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
+
+            document.getElementById("result").innerHTML = "Your age is: " + ageInYears + " years, " + ageInMonths + " months, " + ageInDays + " days.";
+        }
+
+        function clearFields() {
+            document.getElementById("todayDateDay").value = "";
+            document.getElementById("todayDateMonth").value = "";
+            document.getElementById("todayDateYear").value = "";
+            document.getElementById("birthDateDay").value = "";
+            document.getElementById("birthDateMonth").value = "";
+            document.getElementById("birthDateYear").value = "";
+            document.getElementById("result").innerHTML = "";
+        }
+    </script>
+</body>
+</html>
